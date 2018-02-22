@@ -1,0 +1,35 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  reconnect: false
+  encoding: utf8
+  pool: 5
+  timeout: 5000
+  username: postgres
+  password:
+  host: db
+
+development:
+  <<: *default
+  database: 9syoku_dev
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: 9syoku_test
+
+production:
+  <<: *default
+  host: Rails.application.secrets.end_point
+  username: Rails.application.secrets.rds.account
+  password: Rails.application.secrets.rds.password
+  database: 9syoku
+  port: 3306
