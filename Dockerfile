@@ -36,7 +36,8 @@ RUN rbenv install ${ruby_ver}; \
     rbenv global ${ruby_ver}
 RUN rbenv global; \
     rbenv rehash
-RUN source /root/.bashrc; gem update --system;
+RUN source /root/.bashrc; \
+    gem update --system;
 
 RUN mkdir /root/.ssh
 RUN touch /root/.ssh/id_rsa
@@ -51,7 +52,7 @@ RUN rbenv exec bundle install
 COPY ./secrets.yml.key config/
 COPY ./database.yml config/
 # RUN rbenv exec bundle exec rails db:create && rbenv exec bundle exec rails db:migrate
-RUN rbenv exec bundle exec rails db:migrate
+# RUN rbenv exec bundle exec rails db:migrate
 
 EXPOSE 3000
-CMD ["rbenv", "exec", "bundle", "exec", "rails", "s", "-b", "0.0.0.0"]
+# CMD ["rbenv", "exec", "bundle", "exec", "rails", "s", "-b", "0.0.0.0"]
