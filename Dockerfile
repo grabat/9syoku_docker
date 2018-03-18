@@ -29,6 +29,7 @@ RUN yum clean all
 RUN git clone https://github.com/rbenv/rbenv.git /root/.rbenv
 RUN git clone https://github.com/rbenv/ruby-build.git /root/.rbenv/plugins/ruby-build
 ENV PATH /root/.rbenv/bin:$PATH
+# RUN echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> /root/.bash_profile
 RUN echo 'eval "$(rbenv init -)"' >> /etc/profile.d/rbenv.sh
 RUN echo 'eval "$(rbenv init -)"' >> /root/.bashrc
 
@@ -39,20 +40,12 @@ RUN rbenv global; \
 RUN source /root/.bashrc; \
     gem update --system;
 
-RUN mkdir /root/.ssh
-RUN touch /root/.ssh/id_rsa
-COPY ./id_rsa /root/.ssh/
-COPY ./id_rsa.pub /root/.ssh/
-RUN ssh-keyscan -H 'github.com' >> ~/.ssh/known_hosts
-WORKDIR /root
-RUN git clone git@github.com:kikeda1104/9syoku.git
-
-WORKDIR 9syoku
+# RUN mkdir /root/9syoku
+COPY . /root/
+# COPY Gemfile /root/9syoku/Gemfile
+# COPY Gemfile.lock /root/9syoku/Gemfile.lock
+# RUN rbenv exec gem install bundler
+WORKDIR /root/9syoku
 RUN rbenv exec bundle install
-COPY ./secrets.yml.key config/
-COPY ./database.yml config/
-# RUN rbenv exec bundle exec rails db:create && rbenv exec bundle exec rails db:migrate
-# RUN rbenv exec bundle exec rails db:migrate
-
-EXPOSE 3000
-# CMD ["rbenv", "exec", "bundle", "exec", "rails", "s", "-b", "0.0.0.0"]
+# CMD rbenv exec bundle exec rails s -p 3000 -b 0.0.0.0
+# COPY . /root/9syoku

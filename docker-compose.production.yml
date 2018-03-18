@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 services:
   db:
     image: postgres
@@ -6,10 +6,11 @@ services:
       - '5432:5432'
 
   web:
-    build: .
+    # build: .
+    image: 105137413805.dkr.ecr.ap-northeast-1.amazonaws.com/9syoku:latest
+    command: rbenv exec bundle exec rails s -p 3000 -b '0.0.0.0'
     ports:
-      - "3000:3000"
-        # command: bundle exec rails s -b '0.0.0.0'
+      - '3000:3000'
     depends_on:
       - db
 
