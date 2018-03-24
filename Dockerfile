@@ -47,5 +47,7 @@ COPY . /root/
 # RUN rbenv exec gem install bundler
 WORKDIR /root/9syoku
 RUN rbenv exec bundle install
+# RUN rbenv exec bundle exec rails db:create && rbenv exec bundle exec rails db:migrate
+
 # CMD rbenv exec bundle exec rails s -p 3000 -b 0.0.0.0
 # COPY . /root/9syoku

@@ -1,23 +1,16 @@
 version: '2'
 services:
-  db:
-    image: postgres
-    ports:
-      - '5432:5432'
-
   web:
-    # build: .
+    environment:
+      - RACK_ENV=development
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=
+      - DATABASE_HOST=qsyoku-dev.ctoswy67aayg.ap-northeast-1.rds.amazonaws.com
     image: 105137413805.dkr.ecr.ap-northeast-1.amazonaws.com/9syoku:latest
-    command: rbenv exec bundle exec rails s -p 3000 -b '0.0.0.0'
-    ports:
-      - '3000:3000'
-    depends_on:
-      - db
-
-        #options:
-        #  logging:
-        #    driver: awslogs
-        #    options:
-        #      awslogs-group: grabat-personal
-        #      awslogs-region: ap-northeast-1
-        #      awslogs-stream-prefix: grabat-personal
+    cpu_shares: 100
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: grabat-personal
+        awslogs-region: ap-northeast-1
+        awslogs-stream-prefix: grabat-personal

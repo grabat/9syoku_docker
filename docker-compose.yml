@@ -2,10 +2,14 @@ version: '3'
 services:
   db:
     image: postgres
-    ports:
-      - '5432:5432'
 
   web:
+    environment:
+      - RACK_ENV=development
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=
+      - DATABASE_HOST=db
+
     build: .
     ports:
       - "3000:3000"
